@@ -22,9 +22,12 @@ echo $settings->get('world');
 ```
 
 ## Tests
+You can run automated unit tests using [PHPUnit](http://phpunit.de):
+
 ```sh
-phpunit
+$ composer install
+$ vendor/bin/phpunit
 ```
 
 ## License
-Switchbox is licensed under the MIT license. See [LICENSE](LICENSE) for details.
+Switchbox is licensed under the Mozilla Public License 2.0 (MPL-2). See [LICENSE](LICENSE) for details.
