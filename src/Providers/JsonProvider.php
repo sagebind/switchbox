@@ -1,8 +1,8 @@
 <?php
-namespace Seffig\Providers;
+namespace Switchbox\Providers;
 
-use Seffig\PropertyValue;
-use Seffig\PropertyCollection;
+use Switchbox\ConfigurationNode;
+use Switchbox\ConfigurationProperty;
 
 class JsonProvider implements ProviderInterface
 {
@@ -19,10 +19,10 @@ class JsonProvider implements ProviderInterface
         $array = json_decode(file_get_contents($this->fileName), true);
 
         // return the array as a property collection
-        return PropertyCollection::fromArray($array);
+        return ConfigurationProperty::fromArray(null, $array);
     }
 
-    public function save(PropertyValue $properties)
+    public function save(ConfigurationNode $properties)
     {
         // turn the property list into an array
         $array = $properties->toArray();

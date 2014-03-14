@@ -1,5 +1,5 @@
 <?php
-namespace Seffig\Providers;
+namespace Switchbox\Providers;
 
 class PhpProvider implements ProviderInterface
 {
