@@ -231,25 +231,22 @@ class ConfigurationProperty extends ConfigurationNode
         // add property nodes
         foreach ($this->getProperties() as $childNode)
         {
-            // get the child node array
-            $childNodeArray = $childNode->toArray();
-
-            // is there only one value?
-            if (count($array) === 1 && isset($array[0]))
-            {
-                // assign the property value to the first child if only
-                // one value exists
-                $array[$childNode->getName()] = $childNodeArray[0];
-            }
-
             // assign the property value to the child array
-            $array[$childNode->getName()] = $childNodeArray;
+            $array[$childNode->getName()] = $childNode->toArray();
         }
 
         // add value nodes
         foreach ($this->getValues() as $childNode)
         {
             $array[] = $childNode->getValue();
+        }
+
+        // is there only one value?
+        if (count($array) === 1 && isset($array[0]))
+        {
+            // assign the property value to the first child if only one
+            // value exists
+            return $array[0];
         }
 
         // return the array

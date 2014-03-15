@@ -1,18 +1,19 @@
 <?php
 namespace Switchbox\Providers;
 
-use Switchbox\ConfigurationNode;
 use Switchbox\ConfigurationProperty;
 
-class JsonProvider implements ProviderInterface
+/**
+ * Loads and saves settings configuration from a JSON file.
+ */
+class JsonProvider extends FileProvider
 {
-    protected $fileName;
-
-    public function __construct($fileName)
-    {
-        $this->fileName = $fileName;
-    }
-
+    /**
+     * Loads settings configuration from file.
+     *
+     * @return ConfigurationProperty
+     * The configuration contained in the file.
+     */
     public function load()
     {
         // load the json object tree into an array
@@ -22,7 +23,13 @@ class JsonProvider implements ProviderInterface
         return ConfigurationProperty::fromArray(null, $array);
     }
 
-    public function save(ConfigurationNode $properties)
+    /**
+     * Saves settings configuration to file
+     *
+     * @param ConfigurationProperty $configuration
+     * The settings configuration to save.
+     */
+    public function save(ConfigurationProperty $configuration)
     {
         // turn the property list into an array
         $array = $properties->toArray();

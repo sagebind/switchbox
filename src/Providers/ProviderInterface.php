@@ -2,27 +2,26 @@
 namespace Switchbox\Providers;
 
 use Exception;
-use Switchbox\ConfigurationNode;
+use Switchbox\ConfigurationProperty;
 
 /**
- * Interface that
+ * Provides methods for loading and saving settings configuration from a source.
  */
 interface ProviderInterface
 {
     /**
-     * Loads a property collection from the provider source.
+     * Loads settings configuration from the provider source.
      * 
-     * @return ConfigurationNode $properties
+     * @return ConfigurationProperty
+     * The settings configuration loaded from the provider source.
      */
     public function load();
 
     /**
-     * Saves a property collection to the provider source.
+     * Saves settings configuration to the provider source.
      * 
-     * @param ConfigurationNode $properties [description]
+     * @param ConfigurationProperty $configuration
+     * The settings configuration to save.
      */
-    public function save(ConfigurationNode $properties);
+    public function save(ConfigurationProperty $configuration);
 }
-
-class ProviderException extends Exception
-{}
