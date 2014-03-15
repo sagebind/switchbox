@@ -13,12 +13,6 @@ class SettingsTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * [testAccess description]
-     *
-     * @param  Settings $settings [description]
-     *
-     * @return [type]             [description]
-     *
      * @depends testCreation
      */
     public function testAccess(Settings $settings)
