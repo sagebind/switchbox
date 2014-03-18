@@ -9,32 +9,38 @@ use Switchbox\ConfigurationProperty;
 class JsonProvider extends FileProvider
 {
     /**
-     * Loads settings configuration from file.
+     * Loads settings configuration from the JSON file.
      *
      * @return ConfigurationProperty
      * The configuration contained in the file.
      */
     public function load()
     {
-        // load the json object tree into an array
-        $array = json_decode(file_get_contents($this->fileName), true);
+        // load the json data from file
+        $json = file_get_contents($this->fileName);
 
-        // return the array as a property collection
+        // load the json object tree into an array
+        $array = json_decode($json, true);
+
+        // return a config tree from the array
         return ConfigurationProperty::fromArray(null, $array);
     }
 
     /**
-     * Saves settings configuration to file
+     * Saves settings configuration to the JSON file.
      *
      * @param ConfigurationProperty $configuration
      * The settings configuration to save.
      */
-    public function save(ConfigurationProperty $configuration)
+    public function save(ConfigurationProperty $config)
     {
-        // turn the property list into an array
-        $array = $properties->toArray();
+        // turn the config tree into an array
+        $array = $config->toArray();
 
-        // serialize the array to json and save it to the settings file
-        file_put_contents($this->fileName, json_encode($array));
+        // serialize the array to a json string
+        $json = json_encode($array);
+
+        // write the json to file
+        file_put_contents($this->fileName, $json);
     }
 }
