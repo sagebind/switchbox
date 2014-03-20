@@ -2,16 +2,16 @@
 namespace Switchbox\Tests\Providers;
 
 use Switchbox\ConfigurationProperty;
-use Switchbox\Providers\JsonProvider;
+use Switchbox\Providers\YamlProvider;
 use org\bovigo\vfs\vfsStream;
 use org\bovigo\vfs\vfsStreamFile;
 use PHPUnit_Framework_TestCase;
+use Symfony\Component\Yaml\Yaml;
 
-class JsonProviderTest extends PHPUnit_Framework_TestCase
+class YamlProviderTest extends PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
-        // create a virtual filesystem
         vfsStream::setup('test');
     }
 
@@ -114,11 +114,11 @@ class JsonProviderTest extends PHPUnit_Framework_TestCase
      */
     public function testLoad($data)
     {
-        // write data to json file
-        file_put_contents('vfs://test/load.json', json_encode($data));
+        // write data to yaml file
+        file_put_contents('vfs://test/load.yaml', Yaml::dump($data, 4));
 
         // create a provider
-        $provider = new JsonProvider('vfs://test/load.json');
+        $provider = new YamlProvider('vfs://test/load.yaml');
 
         // load data from file
         $config = $provider->load();
@@ -133,12 +133,12 @@ class JsonProviderTest extends PHPUnit_Framework_TestCase
     public function testSave($data)
     {
         // create a provider
-        $provider = new JsonProvider('vfs://test/save.json');
+        $provider = new YamlProvider('vfs://test/save.yaml');
 
         // save provided data to provider
         $provider->save(ConfigurationProperty::fromArray(null, $data));
-
+        
         // stored data should match original data
-        $this->assertJsonStringEqualsJsonString(json_encode($data), file_get_contents('vfs://test/save.json'));
+        $this->assertEquals(Yaml::dump($data, 4), file_get_contents('vfs://test/save.yaml'));
     }
 }
