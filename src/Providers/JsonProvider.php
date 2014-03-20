@@ -38,7 +38,7 @@ class JsonProvider extends FileProvider
         $array = $config->toArray();
 
         // serialize the array to a json string
-        $json = json_encode($array);
+        $json = json_encode($array, JSON_PRETTY_PRINT);
 
         // write the json to file
         file_put_contents($this->fileName, $json);
