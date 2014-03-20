@@ -2,6 +2,7 @@
 namespace Switchbox;
 
 use Countable;
+use OverflowException;
 
 /**
  * Represents a single node in the configuration data tree.
@@ -13,6 +14,13 @@ abstract class ConfigurationNode implements Countable
      * @var ConfigurationNode[]
      */
     protected $children = array();
+
+    /**
+     * Indicates if this node is restricted to having only one child.
+     *
+     * @var bool
+     */
+    protected $singularChild = false;
 
     /**
      * Checks if this node has any children.
@@ -48,6 +56,17 @@ abstract class ConfigurationNode implements Countable
     }
 
     /**
+     * Checks if this node is restricted to having only one child.
+     *
+     * @return bool
+     * True if this node is restricted to having only one child, otherwise false.
+     */
+    public function hasSingularChild()
+    {
+        return $this->singularChild;
+    }
+
+    /**
      * Adds a configuration node to the node's list of children.
      *
      * @param ConfigurationNode $node
@@ -58,6 +77,11 @@ abstract class ConfigurationNode implements Countable
      */
     public function appendChild(ConfigurationNode $node)
     {
+        if ($this->singularChild && $this->count() == 1)
+        {
+            throw new OverflowException('Node cannot have more than one child.');
+        }
+
         // push node to children
         $this->children[] = $node;
 

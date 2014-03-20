@@ -19,10 +19,14 @@ class ConfigurationProperty extends ConfigurationNode
      *
      * @param string $name
      * The name of the property.
+     *
+     * @param bool $singularChild
+     * Indicates if this node is restricted to having only one child.
      */
-    public function __construct($name = null)
+    public function __construct($name = null, $singularChild = false)
     {
         $this->setName($name);
+        $this->singularChild = $singularChild;
     }
 
     /**
@@ -59,7 +63,7 @@ class ConfigurationProperty extends ConfigurationNode
                 else
                 {
                     // create a property node with the key as the name
-                    $childNode = $propertyNode->appendChild(new static($key));
+                    $childNode = $propertyNode->appendChild(new static($key, true));
 
                     // add a value to the property node
                     $childNode->appendChild(new ConfigurationValue($value));
@@ -242,7 +246,7 @@ class ConfigurationProperty extends ConfigurationNode
         }
 
         // is there only one value?
-        if (count($array) === 1 && isset($array[0]))
+        if ($this->singularChild && count($array) === 1)
         {
             // assign the property value to the first child if only one
             // value exists
