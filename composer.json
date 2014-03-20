@@ -19,6 +19,9 @@
         "phpunit/phpunit": "~4.0",
         "mikey179/vfsStream": "~1.2"
     },
+    "suggest": {
+        "symfony/yaml": "Enables reading and writing YAML configuration files"
+    },
     "autoload": {
         "psr-4": {
             "Switchbox\\": "src/",
