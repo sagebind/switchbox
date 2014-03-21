@@ -1,7 +1,7 @@
 {
     "name": "switchbox/switchbox",
-    "description": "Settings library for PHP",
-    "keywords": ["settings", "config"],
+    "description": "Quick and extensible configuration library that can load and save in JSON, YAML, INI, and more",
+    "keywords": ["config", "settings", "configuration", "ini"],
     "type": "library",
     "license": "MPL-2.0",
     "authors": [
