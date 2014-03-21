@@ -11,7 +11,7 @@ The best way to install Switchbox is using [Composer](http://getcomposer.org). J
 ```json
 {
     "require": {
-        "switchbox/switchbox": "dev-master"
+        "switchbox/switchbox": "0.1.*"
     }
 }
 ```
@@ -23,7 +23,7 @@ $ composer install
 
 Alternatively, you can add Switchbox as a dependency using the command line:
 ```sh
-$ composer require switchbox/switchbox:dev-master
+$ composer require switchbox/switchbox:0.1.*
 ```
 
 ## Using Switchbox
