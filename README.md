@@ -1,5 +1,5 @@
 # Switchbox
-[![Latest Stable Version](https://poser.pugx.org/switchbox/switchbox/v/stable.png)](https://packagist.org/packages/switchbox/switchbox) [![Latest Unstable Version](https://poser.pugx.org/switchbox/switchbox/v/unstable.png)](https://packagist.org/packages/switchbox/switchbox) [![License](https://poser.pugx.org/switchbox/switchbox/license.png)](https://packagist.org/packages/switchbox/switchbox)
+[![Latest Stable Version](https://poser.pugx.org/switchbox/switchbox/v/stable.png)](https://packagist.org/packages/switchbox/switchbox) [![Latest Unstable Version](https://poser.pugx.org/switchbox/switchbox/v/unstable.png)](https://packagist.org/packages/switchbox/switchbox) [![License](https://poser.pugx.org/switchbox/switchbox/license.png)](https://packagist.org/packages/switchbox/switchbox)[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/coderstephen/switchbox/badges/quality-score.png?s=fd9080c7b0a0bf15c8bf06782e0f3ab65476e8db)](https://scrutinizer-ci.com/g/coderstephen/switchbox/)
 
 ## Prolegomenon
 You should never have to waste time in a project writing extra code just for loading configuration files. So stop twiddling around with [`parse_ini_file()`](http://php.net/parse_ini_file) and use Switchbox, a simple library meant to make dealing with configuration files in PHP quick and extensible.
