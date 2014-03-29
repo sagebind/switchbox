@@ -16,6 +16,12 @@ class JsonProvider extends FileProvider
      */
     public function load()
     {
+        // make sure the file is readable
+        if (!is_readable($this->fileName))
+        {
+            throw new FileNotFoundException("The file '{$this->fileName}' is not readable.");
+        }
+
         // load the json data from file
         $json = file_get_contents($this->fileName);
 

@@ -18,6 +18,12 @@ class YamlProvider extends FileProvider
      */
     public function load()
     {
+        // make sure the file is readable
+        if (!is_readable($this->fileName))
+        {
+            throw new FileNotFoundException("The file '{$this->fileName}' is not readable.");
+        }
+
         // load the yaml contents from file
         $yaml = file_get_contents($this->fileName);
 

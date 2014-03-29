@@ -1,7 +1,7 @@
 <?php
 namespace Switchbox\Providers;
 
-use Exception;
+use UnexpectedValueException;
 use Switchbox\ConfigurationProperty;
 
 /**
@@ -20,7 +20,7 @@ class PhpProvider extends FileProvider
         // make sure the file is readable
         if (!is_readable($this->fileName))
         {
-            throw new Exception("The file '{$this->fileName}' is not readable.");
+            throw new FileNotFoundException("The file '{$this->fileName}' is not readable.");
         }
 
         // parse the file
@@ -29,7 +29,7 @@ class PhpProvider extends FileProvider
         // return value must be an array
         if (!is_array($returnValue))
         {
-            throw new Exception("The file '{$this->fileName}' does not return an array.");
+            throw new UnexpectedValueException("The file '{$this->fileName}' does not return an array.");
         }
 
         // return a config tree from the returned array
