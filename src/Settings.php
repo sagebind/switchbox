@@ -1,7 +1,7 @@
 <?php
 namespace Switchbox;
 
-use Exception;
+use RuntimeException;
 use Switchbox\Providers\ProviderInterface;
 
 class Settings
@@ -73,7 +73,7 @@ class Settings
         {
             if (!$node->hasProperty($names[$i]))
             {
-                throw new Exception("The property '$name' does not exist.");
+                throw new RuntimeException("The property '$name' does not exist.");
             }
 
             $node = $node->getProperty($names[$i]);
