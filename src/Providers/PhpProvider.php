@@ -33,7 +33,7 @@ class PhpProvider extends FileProvider
         }
 
         // return a config tree from the returned array
-        return ConfigurationProperty::fromArray($returnValue);
+        return ConfigurationProperty::fromArray(null, $returnValue);
     }
 
     public function save(ConfigurationProperty $configuration)
