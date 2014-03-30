@@ -9,7 +9,7 @@ class Settings
     /**
      * The configuration tree of the settings.
      *
-     * @var ConfigurationNode
+     * @var ConfigurationProperty
      */
     protected $configuration;
     protected $provider;
@@ -40,22 +40,20 @@ class Settings
      */
     public function has($name)
     {
-        $names = explode('.', $name, 2);
+        $names = explode('.', $name);
+        $node = $this->configuration;
 
-        foreach ($this->children as $property)
+        for ($i = 0; $i < count($names); $i++)
         {
-            if ($property->getName() === $names[0])
+            if (!$node->hasProperty($names[$i]))
             {
-                if (isset($names[1]))
-                {
-                    return $property->has($names[1]);
-                }
-
-                return true;
+                return false;
             }
+
+            $node = $node->getProperty($names[$i]);
         }
 
-        return false;
+        return true;
     }
 
     /**
@@ -118,10 +116,18 @@ class Settings
 
         for ($i = 0; $i < count($names) - 1; $i++)
         {
-            $property = $property->getProperty($names[$i]);
-        }
+            if (!$node->hasProperty($names[$i]))
+            {
+                $node->appendChild(new ConfigurationProperty($names[$i]));
+            }
 
-        $property->removeProperty($names[count($names) - 1]);
+            $node = $node->getProperty($names[$i]);
+        }
+        
+        if ($node->hasProperty($names[count($names) - 1]))
+        {
+            $node->removeProperty($names[count($names) - 1]);
+        }
     }
 
     /**
