@@ -140,7 +140,7 @@ class IniProvider extends FileProvider
             {
                 $fileStream->fwrite($propertyNode->getName());
                 $fileStream->fwrite('[] = ');
-                $fileStream->fwrite(json_encode($valueNode->getValue()));
+                $fileStream->fwrite($valueNode->getValue());
                 $fileStream->fwrite("\r\n");
             }
         }
