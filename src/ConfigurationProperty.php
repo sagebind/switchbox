@@ -69,6 +69,13 @@ class ConfigurationProperty extends ConfigurationNode
                 }
             }
 
+            // array of arrays - a nameless shadow property
+            else if (is_array($value))
+            {
+                // append a property node from the array value with no name
+                $propertyNode->appendChild(static::fromArray(null, $value));
+            }
+
             // value is a configuration value if key isn't a name
             else
             {
@@ -107,6 +114,17 @@ class ConfigurationProperty extends ConfigurationNode
         }
 
         $this->name = $name;
+    }
+
+    /**
+     * Indicates if the property is a shadow property with no name.
+     *
+     * @return bool
+     * True if the property is a shadow property, otherwise false;
+     */
+    public function isShadowProperty()
+    {
+        return $this->name === null;
     }
 
     /**
@@ -234,8 +252,19 @@ class ConfigurationProperty extends ConfigurationNode
         // add property nodes
         foreach ($this->getProperties() as $childNode)
         {
-            // assign the property value to the child array
-            $array[$childNode->getName()] = $childNode->toArray();
+            // shadow property
+            if ($childNode->isShadowProperty())
+            {
+                // add like a value
+                $array[] = $childNode->toArray();
+            }
+
+            // regular property
+            else
+            {
+                // assign the property value to the child array
+                $array[$childNode->getName()] = $childNode->toArray();
+            }
         }
 
         // add value nodes
