@@ -2,6 +2,7 @@
 namespace Switchbox;
 
 use Countable;
+use RangeException;
 use OverflowException;
 
 /**
@@ -17,10 +18,9 @@ abstract class ConfigurationNode implements Countable
 
     /**
      * Indicates if this node is restricted to having only one child.
-     *
      * @var bool
      */
-    protected $singularChild = false;
+    protected $uniparous = false;
 
     /**
      * Checks if this node has any children.
@@ -60,10 +60,36 @@ abstract class ConfigurationNode implements Countable
      *
      * @return bool
      * True if this node is restricted to having only one child, otherwise false.
+     *
+     * Uniparous [yoo-nip-er-uhs] - adj:
+     * 1. producing a single offspring at each birth
+     * 2. having borne only one child
+     * 3. botany (of a cyme) giving rise to only one branch from each flowering stem
      */
-    public function hasSingularChild()
+    public function isUniparous()
     {
-        return $this->singularChild;
+        return $this->uniparous;
+    }
+
+    /**
+     * Sets if this node is restricted to having only one child.
+     *
+     * @param $uniparous bool
+     * Boolean indicating if this node is restricted to having only one child.
+     *
+     * Uniparousity [yoo-nip-er-uhs] - noun:
+     * 1. condition of producing a single offspring at each birth
+     * 2. state of having borne only one child
+     * 3. botany (of a cyme) giving rise to only one branch from each flowering stem
+     */
+    public function setUniparousity($uniparous)
+    {
+        if ($uniparous && $this->count() > 1)
+        {
+            throw new RangeException('Node cannot be made uniparous because it already contains more than one child.');
+        }
+
+        $this->uniparous = (bool)$uniparous;
     }
 
     /**
@@ -77,7 +103,7 @@ abstract class ConfigurationNode implements Countable
      */
     public function appendChild(ConfigurationNode $node)
     {
-        if ($this->singularChild && $this->count() == 1)
+        if ($this->uniparous && $this->count() >= 1)
         {
             throw new OverflowException('Node cannot have more than one child.');
         }
