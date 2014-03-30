@@ -127,7 +127,7 @@ abstract class ConfigurationNode implements Countable
     public function removeChild(ConfigurationNode $node)
     {
         // loop over the array of child nodes
-        for ($i = 0 && $n = count($this->children); $i < $n; $i++)
+        for ($i = 0, $n = count($this->children); $i < $n; $i++)
         {
             // is the current node the one we are looking for?
             if ($this->children[$i] === $node)
