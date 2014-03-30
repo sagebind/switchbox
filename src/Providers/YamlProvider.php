@@ -40,7 +40,7 @@ class YamlProvider extends FileProvider
     /**
      * Saves settings configuration to the YAML file.
      *
-     * @param ConfigurationProperty $configuration
+     * @param ConfigurationProperty $config
      * The settings configuration to save.
      */
     public function save(ConfigurationProperty $config)

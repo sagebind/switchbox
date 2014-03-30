@@ -20,8 +20,8 @@ interface ProviderInterface
     /**
      * Saves settings configuration to the provider source.
      * 
-     * @param ConfigurationProperty $configuration
+     * @param ConfigurationProperty $config
      * The settings configuration to save.
      */
-    public function save(ConfigurationProperty $configuration);
+    public function save(ConfigurationProperty $config);
 }

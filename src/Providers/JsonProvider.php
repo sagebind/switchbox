@@ -35,7 +35,7 @@ class JsonProvider extends FileProvider
     /**
      * Saves settings configuration to the JSON file.
      *
-     * @param ConfigurationProperty $configuration
+     * @param ConfigurationProperty $config
      * The settings configuration to save.
      */
     public function save(ConfigurationProperty $config)

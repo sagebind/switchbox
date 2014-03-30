@@ -36,7 +36,7 @@ class PhpProvider extends FileProvider
         return ConfigurationProperty::fromArray(null, $returnValue);
     }
 
-    public function save(ConfigurationProperty $configuration)
+    public function save(ConfigurationProperty $config)
     {
         throw new NotImplementedException("Settings configuration cannot be saved to PHP script files.");
     }
