@@ -1,13 +1,13 @@
 # Switchbox
 [![Latest Stable Version](https://poser.pugx.org/switchbox/switchbox/v/stable.png)](https://packagist.org/packages/switchbox/switchbox) [![Latest Unstable Version](https://poser.pugx.org/switchbox/switchbox/v/unstable.png)](https://packagist.org/packages/switchbox/switchbox) [![License](https://poser.pugx.org/switchbox/switchbox/license.png)](https://packagist.org/packages/switchbox/switchbox) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/coderstephen/switchbox/badges/quality-score.png?s=fd9080c7b0a0bf15c8bf06782e0f3ab65476e8db)](https://scrutinizer-ci.com/g/coderstephen/switchbox/)
 
-## Prolegomenon
-You should never have to waste time in a project writing extra code just for loading configuration files. So stop twiddling around with [`parse_ini_file()`](http://php.net/parse_ini_file) and use Switchbox, a simple library meant to make dealing with configuration files in PHP quick and extensible.
+You should *never* have to waste time in a project writing extra code just for loading configuration for your app. So stop twiddling around with [`parse_ini_file()`](http://php.net/parse_ini_file) and use Switchbox, a simple library meant to make dealing with settings in PHP quick and extensible.
 
-Switchbox can both load and save configuration from any source using an extensible provider architecture. Potential providers include INI, JSON, YAML, XML, and Java-style property files, as well as databases, registries, and any other source you could think of. Providers currently implemented include JSON, YAML, and plain PHP files.
+Switchbox can both load and save configuration from *any source* using an extensible provider architecture. Potential providers include INI, JSON, YAML, XML, and Java-style property files, as well as databases, registries, and any other source you could think of. Providers currently implemented include JSON, YAML, and plain PHP files.
 
 ## Installation
 The best way to install Switchbox is using [Composer](http://getcomposer.org). Just add Switchbox as a dependency to a project in your `composer.json` file:
+
 ```json
 {
     "require": {
@@ -17,11 +17,13 @@ The best way to install Switchbox is using [Composer](http://getcomposer.org). J
 ```
 
 You can then install Switchbox using Composer:
+
 ```sh
 $ composer install
 ```
 
 Alternatively, you can add Switchbox as a dependency using the command line:
+
 ```sh
 $ composer require switchbox/switchbox:0.1.*
 ```
@@ -29,8 +31,8 @@ $ composer require switchbox/switchbox:0.1.*
 ## Using Switchbox
 The `Switchbox\Settings` class is used to manage a single configuration source. To create a `Settings` object, first create a provider object and pass it to the `Settings` constructor. The provider given will be used to load and save configuration data whenever `Settings::load()` or `Settings::save()` are called.
 
-### A simplistic example
 Below is an example of a very simple configuration file in [JSON](http://json.org):
+
 ```json
 {
     "greeting": "Hello",
@@ -38,15 +40,14 @@ Below is an example of a very simple configuration file in [JSON](http://json.or
 }
 ```
 
-We can use the above config file with the following code:
+We can use the above settings file with the following code:
+
 ```php
 use Switchbox\Settings;
 use Switchbox\Providers\JsonProvider;
 
 // create a settings object
-$settings = new Settings(
-    new JsonProvider('settings.json')
-);
+$settings = new Settings(new JsonProvider('settings.json'));
 
 // load config from provider
 $settings->load();
@@ -55,8 +56,34 @@ $settings->load();
 echo $settings->get('greeting').', '.$settings->get('world')."!\n";
 ```
 
+The above code will display the following output:
+
+```
+Hello, Earth!
+```
+
+The same exact functionality could also be done using a [YAML](http://yaml.org) settings file:
+
+```yaml
+# settings.yaml
+greeting: Hello
+world: Earth
+```
+
+We only have to tweak our original code to use the `Switchbox\Providers\YamlProvider` to load the file. The rest works just fine:
+
+```php
+...
+// create a settings object
+$settings = new Settings(new YamlProvider('settings.yaml'));
+...
+```
+
+Because the process of loading and saving configuration is decoupled from the `Settings` class, you can use any kind of source you want and use the same convenient API for all of them. All that is required is that the provider must implement the [`Switchbox\Providers\ProviderInterface`](src/Providers/ProviderInterface.php) interface, which just asks for `load()` and `save()` methods.
+
 ## Running tests
 You can run automated unit tests using [PHPUnit](http://phpunit.de) after installing dependencies:
+
 ```sh
 $ vendor/bin/phpunit
 ```
