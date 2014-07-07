@@ -3,7 +3,7 @@
     "description": "Quick and extensible configuration library that can load and save in JSON, YAML, INI, and more",
     "keywords": ["config", "settings", "configuration", "ini"],
     "type": "library",
-    "license": "MPL-2.0",
+    "license": "Apache-2.0",
     "authors": [
         {
             "name": "Stephen Coakley",
