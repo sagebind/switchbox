@@ -95,4 +95,4 @@ Need help? Just [send me an email](mailto:me@stephencoakley.com) with your quest
 Want to help make Switchbox better? Simply fork this repo and start adding code. Switchbox's contribution model is very informal, so just submit a pull request. Pull requests will be reviewed and accepted if they fit the goal of the project and follow the contribution guidelines (available soon). Be sure to contact me if you have any questions.
 
 ## License
-Switchbox is licensed under the Apache License, Version 2.0 (Apache-2.0). See [LICENSE.md](LICENSE) for details.
+Switchbox is licensed under the Apache License, Version 2.0 (Apache-2.0). See [LICENSE.md](LICENSE.md) for details.
