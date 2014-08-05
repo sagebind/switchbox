@@ -1,5 +1,9 @@
 # ignore dependencies
-vendor/*
+vendor/
+
+# ignore api documentation cache and build files
+build/
+cache/
 
 # ignore ide project files
 *.sublime-project
