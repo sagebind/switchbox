@@ -1,49 +1,98 @@
 <?php
+/*
+ * Copyright 2014 Stephen Coakley <me@stephencoakley.com>
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy
+ * of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations
+ * under the License.
+ */
+
 namespace Switchbox\Tests\Providers;
 
-use Switchbox\ConfigurationProperty;
 use Switchbox\Providers\JsonProvider;
+use Switchbox\Tests\TestData;
 use org\bovigo\vfs\vfsStream;
-use org\bovigo\vfs\vfsStreamFile;
 
-class JsonProviderTest extends ProviderTestCase
+class JsonProviderTest extends \PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
         // create a virtual filesystem
         vfsStream::setup('test');
+
+        file_put_contents('vfs://test/expected.json', '{
+            "name": "awesome",
+            "isAlive": true,
+            "age": 25,
+            "height": 167.64,
+            "tags": [
+                "abc",
+                "def",
+                "ghi"
+            ],
+            "paths": {
+                "root": "/",
+                "coolStuff": "/path/to/cool/stuff"
+            },
+            "authors": [
+                {
+                    "name": "Leah"
+                },
+                {
+                    "name": "Elsa"
+                }
+            ]
+        }');
+    }
+
+    public function configProvider()
+    {
+        return array(array(TestData::getConfig(), 'vfs://test/expected.json'));
     }
 
     /**
-     * @dataProvider configDataProvider
+     * @dataProvider configProvider
      */
-    public function testLoad($data)
+    public function testLoad($expectedConfig, $expectedFile)
     {
-        // write data to json file
-        file_put_contents('vfs://test/load.json', json_encode($data));
-
         // create a provider
-        $provider = new JsonProvider('vfs://test/load.json');
+        $provider = new JsonProvider($expectedFile);
 
         // load data from file
         $config = $provider->load();
 
         // loaded data should match original data
-        $this->assertEquals($data, $config->toArray());
+        $this->assertEquals($expectedConfig, $config);
     }
 
     /**
-     * @dataProvider configDataProvider
+     * @dataProvider configProvider
      */
-    public function testSave($data)
+    public function testLoadReturnsNode($expectedConfig, $expectedFile)
+    {
+        $this->markTestIncomplete();
+    }
+
+    /**
+     * @dataProvider configProvider
+     */
+    public function testSave($expectedConfig, $expectedFile)
     {
         // create a provider
-        $provider = new JsonProvider('vfs://test/save.json');
+        $provider = new JsonProvider('vfs://test/actual.json');
 
         // save provided data to provider
-        $provider->save(ConfigurationProperty::fromArray(null, $data));
+        $provider->save($expectedConfig);
 
         // stored data should match original data
-        $this->assertJsonStringEqualsJsonString(json_encode($data), file_get_contents('vfs://test/save.json'));
+        $this->assertJsonFileEqualsJsonFile($expectedFile, 'vfs://test/actual.json');
     }
 }

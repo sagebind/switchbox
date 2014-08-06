@@ -17,51 +17,36 @@
 
 namespace Switchbox\Tests\Providers;
 
-use Switchbox\Providers\IniProvider;
+use Switchbox\Providers\PhpScriptProvider;
 use Switchbox\Tests\TestData;
 use org\bovigo\vfs\vfsStream;
 
-class IniProviderTest extends \PHPUnit_Framework_TestCase
+class PhpScriptProviderTest extends \PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
         // create a virtual filesystem
         vfsStream::setup('test');
-
-        file_put_contents('vfs://test/expected.ini', 'name=awesome
-isAlive=true
-age=25
-height=167.64
-tags[]=abc
-tags[]=def
-tags[]=ghi
-
-[paths]
-root=/
-coolStuff=/path/to/cool/stuff
-
-[authors]
-name=Leah
-[authors]
-name=Elsa
-');
     }
 
     public function configProvider()
     {
-        return array(array(TestData::getConfig(), 'vfs://test/expected.ini'));
+        return array(array(TestData::getConfig(), TestData::getArray()));
     }
 
     /**
      * @dataProvider configProvider
      */
-    public function testLoad($expectedConfig, $expectedFile)
+    public function testLoad($expectedConfig, $expectedArray)
     {
+        // write data to a php script file
+        file_put_contents('vfs://test/load.php', "<?php\nreturn ".var_export($expectedArray, true).';');
+
         // create a provider
-        $provider = new IniProvider($expectedFile);
+        $provider = new PhpScriptProvider('vfs://test/load.php');
 
         // load data from file
-        $config = $provider->load();
+        $config = $provider->load($expectedConfig);
 
         // loaded data should match original data
         $this->assertEquals($expectedConfig, $config);

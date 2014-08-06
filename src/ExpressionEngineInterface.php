@@ -17,5 +17,12 @@
 
 namespace Switchbox;
 
-interface Exception
-{}
+interface ExpressionEngineInterface
+{
+    /**
+     * [query description]
+     *
+     * @return PropertyTree\NodeList
+     */
+    public function query($expression, PropertyTree\Node $context);
+}

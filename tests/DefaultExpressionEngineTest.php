@@ -15,7 +15,23 @@
  * under the License.
  */
 
-namespace Switchbox;
+namespace Switchbox\Tests;
 
-interface Exception
-{}
+use Switchbox\DefaultExpressionEngine;
+
+class DefaultExpressionEngineTest extends \PHPUnit_Framework_TestCase
+{
+    protected $expressionEngine;
+
+    public function setUp()
+    {
+        $this->expressionEngine = new DefaultExpressionEngine();
+    }
+
+    public function testQueryReturnsNodeList()
+    {
+        $actual = $this->expressionEngine->query('', new \Switchbox\PropertyTree\Node());
+        
+        $this->assertInstanceOf('Switchbox\PropertyTree\NodeList', $actual);
+    }
+}

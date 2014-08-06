@@ -15,7 +15,19 @@
  * under the License.
  */
 
-namespace Switchbox;
+namespace Switchbox\Providers;
 
-interface Exception
-{}
+/**
+ * Provides methods for saving configuration to a source.
+ */
+interface SaveableProviderInterface extends ProviderInterface
+{
+    /**
+     * Saves settings configuration to the provider source.
+     *
+     * @param \Switchbox\PropertyTree\Node $node
+     * 
+     * @return void
+     */
+    public function save(\Switchbox\PropertyTree\Node $node);
+}

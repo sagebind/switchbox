@@ -18,15 +18,14 @@
 namespace Switchbox\Providers;
 
 use Switchbox\PropertyTree\ArrayHelper;
-use Switchbox\PropertyTree\Node;
 
 /**
- * Loads and saves settings configuration from a JSON file.
+ * Loads settings configuration from a PHP script file.
  */
-class JsonProvider extends AbstractFileProvider implements SaveableProviderInterface
+class PhpScriptProvider extends AbstractFileProvider implements ProviderInterface
 {
     /**
-     * Loads settings configuration from the JSON file.
+     * Loads settings configuration from file.
      *
      * @return Node
      */
@@ -38,30 +37,16 @@ class JsonProvider extends AbstractFileProvider implements SaveableProviderInter
             throw new FileNotFoundException("The file '{$this->fileName}' is not readable.");
         }
 
-        // load the json data from file
-        $json = file_get_contents($this->fileName);
+        // parse the file
+        $returnValue = include($this->fileName);
 
-        // load the json object tree into an array
-        $array = json_decode($json, true);
+        // return value must be an array
+        if (!is_array($returnValue))
+        {
+            throw new \UnexpectedValueException("The file '{$this->fileName}' does not return an array.");
+        }
 
-        // return a config tree from the array
-        return ArrayHelper::fromArray($array);
-    }
-
-    /**
-     * Saves settings configuration to the JSON file.
-     *
-     * @return void
-     */
-    public function save(Node $node)
-    {
-        // turn the config tree into an array
-        $array = ArrayHelper::toArray($node);
-
-        // serialize the array to a json string
-        $json = json_encode($array, JSON_PRETTY_PRINT);
-
-        // write the json to file
-        file_put_contents($this->fileName, $json);
+        // return a config tree from the returned array
+        return ArrayHelper::fromArray($returnValue);
     }
 }

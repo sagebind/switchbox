@@ -15,7 +15,24 @@
  * under the License.
  */
 
-namespace Switchbox;
+namespace Switchbox\PropertyTree;
 
-interface Exception
-{}
+/**
+ * Recursively iterates over an entire property tree.
+ */
+class RecursiveTreeIterator extends \RecursiveIteratorIterator
+{
+    /**
+     * Creates a new recursive property tree iterator.
+     *
+     * @param Node $rootNode
+     * The root node of the property tree to iterate over.
+     */
+    public function __construct(Node $rootNode)
+    {
+        $superList = new NodeList();
+        $superList->addNode($rootNode);
+
+        parent::__construct($superList->getIterator(), \RecursiveIteratorIterator::SELF_FIRST);
+    }
+}

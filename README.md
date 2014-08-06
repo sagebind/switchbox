@@ -1,5 +1,7 @@
 # Switchbox
-[![Latest Stable Version](https://poser.pugx.org/switchbox/switchbox/v/stable.png)](https://packagist.org/packages/switchbox/switchbox) [![Latest Unstable Version](https://poser.pugx.org/switchbox/switchbox/v/unstable.png)](https://packagist.org/packages/switchbox/switchbox) [![License](https://poser.pugx.org/switchbox/switchbox/license.png)](https://packagist.org/packages/switchbox/switchbox) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/coderstephen/switchbox/badges/quality-score.png?s=fd9080c7b0a0bf15c8bf06782e0f3ab65476e8db)](https://scrutinizer-ci.com/g/coderstephen/switchbox/)
+[![Latest Stable Version](http://img.shields.io/packagist/v/switchbox/switchbox.svg?style=flat)](https://packagist.org/packages/switchbox/switchbox)
+[![License](http://img.shields.io/packagist/l/switchbox/switchbox.svg?style=flat)](http://www.apache.org/licenses/LICENSE-2.0)
+[![Code Quality](http://img.shields.io/scrutinizer/g/coderstephen/switchbox.svg?style=flat)](https://scrutinizer-ci.com/g/coderstephen/switchbox)
 
 Configuration files are a pretty basic, prevalent part of creating software, but PHP doesn't offer a very good toolbox for using them. Switchbox is meant to be that toolbox, to allow developers to quickly and painlessly integrate configuration files into PHP applications.
 
@@ -95,10 +97,10 @@ $ vendor/bin/phpunit
 Need help? Just [send me an email](mailto:me@stephencoakley.com) with your questions. Be sure to add "Switchbox" to the message subject line so I know how I can help you out.
 
 ## Contributing
-Want to help make Switchbox better? Simply fork this repo and start adding code. Switchbox's contribution model is currently very informal, so just submit a pull request. Pull requests will be reviewed and accepted if they fit the goal of the project. Be sure to contact me if you have any questions.
+Want to help make Switchbox something usable for the future? Fork this repo and start coding. Switchbox's contribution model is currently very informal, so just submit a pull request. Pull requests will be reviewed and accepted if they fit the goal of the project. Be sure to contact Stephen Coakley ([me@stephencoakley.com](mailto:me@stephencoakley.com)) if you have any questions.
 
 ## License
 Switchbox is licensed under the Apache License, Version 2.0 (Apache-2.0). See [LICENSE.md](LICENSE.md) for details.
 
 ## Inspiration
-Switchbox was inspired by the usability of the .NET Framework's settings API and the flexibility of the [Apache Commons Configuration](http://commons.apache.org/proper/commons-configuration/).
+Switchbox was inspired by the usability of the .NET Framework's settings API and the flexibility of Apache's [Commons Configuration](http://commons.apache.org/proper/commons-configuration/) library.

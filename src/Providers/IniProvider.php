@@ -1,40 +1,34 @@
 <?php
+/*
+ * Copyright 2014 Stephen Coakley <me@stephencoakley.com>
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy
+ * of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations
+ * under the License.
+ */
+
 namespace Switchbox\Providers;
 
-use Exception;
-use SplFileObject;
-use Switchbox\ConfigurationProperty;
+use Switchbox\PropertyTree\ArrayHelper;
+use Switchbox\PropertyTree\Node;
 
 /**
  * Loads and saves settings configuration from an INI file.
  */
-class IniProvider extends FileProvider
+class IniProvider extends AbstractFileProvider implements ProviderInterface
 {
-    /**
-     * Indicates if settings should be divided up and grouped by section headers.
-     * @var bool
-     */
-    protected $processSections = true;
-
-    /**
-     * Creates a new INI file provider with a given file name.
-     *
-     * @param string $fileName
-     * The file path of the file containing configuration values.
-     *
-     * @param bool $processSections
-     * Indicates if settings should be divided up and grouped by section headers.
-     */
-    public function __construct($fileName, $processSections = true)
-    {
-        parent::__construct($fileName);
-        $this->processSections = $processSections;
-    }
-
     /**
      * Loads settings configuration from the INI file.
      *
-     * @return ConfigurationProperty
+     * @return NodeList
      * The configuration contained in the file.
      */
     public function load()
@@ -46,103 +40,16 @@ class IniProvider extends FileProvider
         }
 
         // load the ini keys into an array
-        $array = parse_ini_file($this->fileName, $this->processSections, INI_SCANNER_RAW);
+        $array = parse_ini_file($this->fileName, true);
+        print_r($array);
 
         // check for parse errors
         if ($array === false)
         {
-            throw new Exception("Syntax error in file '{$this->fileName}'.");
+            throw new \Exception("Syntax error in file '{$this->fileName}'.");
         }
 
         // return a config tree from the array
-        return ConfigurationProperty::fromArray(null, $array);
-    }
-
-    /**
-     * Saves settings configuration to the INI file.
-     *
-     * @param ConfigurationProperty $config
-     * The settings configuration to save.
-     */
-    public function save(ConfigurationProperty $config)
-    {
-        // open the file for writing
-        $fileStream = new SplFileObject($this->fileName, 'wb');
-
-        if ($this->processSections)
-        {
-            $sectionNodes = array();
-            $sectionlessKeys = false;
-
-            foreach ($config->getProperties() as $propertyNode)
-            {
-                if (count($propertyNode->getProperties()) === 0)
-                {
-                    $sectionlessKeys = true;
-                    $this->writeProperty($fileStream, $propertyNode);
-                }
-
-                else
-                {
-                    $sectionNodes[] = $propertyNode;
-                }
-            }
-
-            if ($sectionlessKeys)
-            {
-                $fileStream->fwrite("\r\n");
-            }
-
-            foreach ($sectionNodes as $sectionNode)
-            {
-                $fileStream->fwrite('[' . $sectionNode->getName() . "]\r\n");
-
-                foreach ($sectionNode->getProperties() as $propertyNode)
-                {
-                    $this->writeProperty($fileStream, $propertyNode);
-                }
-
-                $fileStream->fwrite("\r\n");
-            }
-        } 
-        
-        else
-        {
-            foreach ($config->getProperties() as $propertyNode)
-            {
-                $this->writeProperty($fileStream, $propertyNode);
-            }
-        }
-
-        // close the file
-        $fileStream = null;
-    }
-
-    private function writeProperty($fileStream, ConfigurationProperty $propertyNode)
-    {
-        if ($propertyNode->isUniparous())
-        {
-            $fileStream->fwrite($propertyNode->getName());
-            $fileStream->fwrite(' = ');
-
-            if ($propertyNode->count() > 0)
-            {
-                $valueNode = $propertyNode->getValues()[0];
-                $fileStream->fwrite($valueNode->getValue());
-            }
-
-            $fileStream->fwrite("\r\n");
-        }
-
-        else
-        {
-            foreach ($propertyNode->getValues() as $valueNode)
-            {
-                $fileStream->fwrite($propertyNode->getName());
-                $fileStream->fwrite('[] = ');
-                $fileStream->fwrite($valueNode->getValue());
-                $fileStream->fwrite("\r\n");
-            }
-        }
+        return ArrayHelper::fromArray($array);
     }
 }

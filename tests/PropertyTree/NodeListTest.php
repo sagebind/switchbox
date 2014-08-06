@@ -15,7 +15,34 @@
  * under the License.
  */
 
-namespace Switchbox;
+namespace Switchbox\Tests\PropertyTree;
 
-interface Exception
-{}
+use Switchbox\PropertyTree\Node;
+use Switchbox\PropertyTree\NodeList;
+
+class NodeListTest extends \PHPUnit_Framework_TestCase
+{
+    protected $nodeList;
+
+    public function setUp()
+    {
+        $this->nodeList = new NodeList();
+    }
+
+    public function testCount()
+    {}
+
+    /**
+     * @depends testAddNode
+     */
+    public function testClearEmptiesList()
+    {
+        $this->nodeList->clear();
+        $this->assertEmpty($this->nodeList);
+    }
+
+    public function testIsIteratable()
+    {
+        $c = iterator_count($this->nodeList);
+    }
+}

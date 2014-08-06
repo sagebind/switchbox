@@ -1,20 +1,36 @@
 <?php
+/*
+ * Copyright 2014 Stephen Coakley <me@stephencoakley.com>
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy
+ * of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations
+ * under the License.
+ */
+
 namespace Switchbox\Providers;
 
-use Switchbox\ConfigurationProperty;
+use Switchbox\PropertyTree\ArrayHelper;
+use Switchbox\PropertyTree\Node;
 use Symfony\Component\Yaml\Dumper;
 use Symfony\Component\Yaml\Parser;
 
 /**
  * Loads and saves settings configuration from a YAML file.
  */
-class YamlProvider extends FileProvider
+class YamlProvider extends AbstractFileProvider implements SaveableProviderInterface
 {
     /**
      * Loads settings configuration from the YAML file.
      *
-     * @return ConfigurationProperty
-     * The configuration contained in the file.
+     * @return Node
      */
     public function load()
     {
@@ -34,19 +50,20 @@ class YamlProvider extends FileProvider
         $array = $parser->parse($yaml);
 
         // return a config tree from the array
-        return ConfigurationProperty::fromArray(null, $array);
+        return ArrayHelper::fromArray($array);
     }
 
     /**
      * Saves settings configuration to the YAML file.
      *
-     * @param ConfigurationProperty $config
-     * The settings configuration to save.
+     * @param Node $node
+     *
+     * @return void
      */
-    public function save(ConfigurationProperty $config)
+    public function save(Node $node)
     {
         // turn the config tree into an array
-        $array = $config->toArray();
+        $array = ArrayHelper::toArray($node);
 
         // create a yaml dumper
         $dumper = new Dumper();

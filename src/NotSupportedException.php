@@ -17,5 +17,8 @@
 
 namespace Switchbox;
 
-interface Exception
+/**
+ * Exception thrown when an operation is not supported by a settings provider.
+ */
+class NotSupportedException extends \BadMethodCallException implements Exception
 {}
