@@ -87,6 +87,9 @@ $settings = new Settings(new YamlProvider('settings.yaml'));
 
 Because the process of loading and saving configuration is decoupled from the `Settings` class, you can use any kind of source you want and use the same convenient API for all of them. All that is required is that the provider must implement the [`Switchbox\Providers\ProviderInterface`](src/Providers/ProviderInterface.php) interface, which just asks for `load()` and `save()` methods.
 
+## Documentation
+API documentation is available at http://switchbox.stephencoakley.com/docs/api.
+
 ## Running tests
 You can run automated unit tests using [PHPUnit](http://phpunit.de) after installing dependencies:
 
