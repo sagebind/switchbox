@@ -21,6 +21,11 @@ use Switchbox\PropertyTree\Node;
 
 class NodeTest extends \PHPUnit_Framework_TestCase
 {
+    public function setUp()
+    {
+        $this->node = new Node();
+    }
+
     public function valueProvider()
     {
         return array(
@@ -37,30 +42,32 @@ class NodeTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function configProvider()
+    public function testConstructorSetsName()
     {
-        return array(array(TestData::getConfig()));
+        $node = new Node('name', 'value');
+        $this->assertEquals('name', $node->getName());
     }
 
-    public function setUp()
+    public function testConstructorSetsValue()
     {
-        $this->node = new Node();
+        $node = new Node('name', 'value');
+        $this->assertEquals('value', $node->getValue());
     }
 
-    public function testNameIsSet()
+    public function testSetNameStoresName()
     {
         $this->node->setName('name');
-
         $this->assertEquals('name', $this->node->getName());
+        return $this->node;
     }
 
-    public function testAppendChildReturnsNodeAdded()
+    /**
+     * @depends testSetNameStoresName
+     */
+    public function testSetNameAllowsNull($node)
     {
-        $nodeToAdd = new Node('foo', 'bar');
-        
-        $returnValue = $this->node->appendChild($nodeToAdd);
-
-        $this->assertSame($nodeToAdd, $returnValue);
+        $node->setName(null);
+        $this->assertNull($node->getName());
     }
 
     /**
@@ -74,9 +81,77 @@ class NodeTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider valueProvider
      */
-    public function testValue($value)
+    public function testSetValueStoresValue($value)
     {
         $this->node->setValue($value);
         $this->assertEquals($value, $this->node->getValue());
+    }
+
+    public function testHasChildNodesIsFalseWhenNodeIsEmpty()
+    {
+        $this->assertFalse($this->node->hasChildNodes());
+    }
+
+    public function testHasChildNodesIsTrueWhenNodeContainsChildren()
+    {
+        $this->node->appendChild(new Node());
+        $this->assertTrue($this->node->hasChildNodes());
+    }
+
+    public function testParentNodeIsNullWhenRoot()
+    {
+        $this->assertNull($this->node->getParentNode());
+    }
+
+    public function testParentNodeIsNotNullWhenNotRoot()
+    {
+        $childNode = new Node();
+        $this->node->appendChild($childNode);
+        $this->assertInstanceOf('Switchbox\PropertyTree\Node', $childNode->getParentNode());
+    }
+
+    public function testAppendChildAddsNode()
+    {
+        $nodeToAdd = new Node('foo', 'bar');
+        $this->node->appendChild($nodeToAdd);
+        $this->assertContains($nodeToAdd, $this->node->getChildNodes());
+    }
+
+    public function testAppendChildReturnsNodeAdded()
+    {
+        $nodeToAdd = new Node('foo', 'bar');
+        $returnValue = $this->node->appendChild($nodeToAdd);
+        $this->assertSame($nodeToAdd, $returnValue);
+    }
+
+    public function testRemoveChildRemovesChild()
+    {
+        $node = new Node();
+
+        $this->node->appendChild($node);
+        $this->node->removeChild($node);
+
+        $this->assertEmpty($this->node->getChildNodes());
+    }
+
+    /**
+     * @depends testRemoveChildRemovesChild
+     */
+    public function testRemoveChildOnlyRemovesChildrenRemoved()
+    {
+        $nodes = array(new Node(), new Node(), new Node(), new Node());
+
+        foreach ($nodes as $node)
+        {
+            $this->node->appendChild($node);
+        }
+
+        $this->node->removeChild($nodes[1]);
+        $this->node->removeChild($nodes[3]);
+
+        $this->assertContains($nodes[0], $this->node->getChildNodes());
+        $this->assertNotContains($nodes[1], $this->node->getChildNodes());
+        $this->assertContains($nodes[2], $this->node->getChildNodes());
+        $this->assertNotContains($nodes[3], $this->node->getChildNodes());
     }
 }
