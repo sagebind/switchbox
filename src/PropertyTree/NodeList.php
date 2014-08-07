@@ -52,6 +52,20 @@ class NodeList implements \IteratorAggregate, \Countable
     }
 
     /**
+     * Checks if the node list contains the given node.
+     *
+     * @param Node $node
+     * The node to check.
+     *
+     * @return bool
+     * True if `$node` is in the node list at least once, otherwise false.
+     */
+    public function contains(Node $node)
+    {
+        return in_array($node, $this->nodes, true);
+    }
+
+    /**
      * Gets the node at the given index.
      *
      * @param int $index
