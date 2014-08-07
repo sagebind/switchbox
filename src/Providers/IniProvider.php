@@ -41,7 +41,6 @@ class IniProvider extends AbstractFileProvider implements ProviderInterface
 
         // load the ini keys into an array
         $array = parse_ini_file($this->fileName, true);
-        print_r($array);
 
         // check for parse errors
         if ($array === false)
