@@ -28,6 +28,11 @@ class Configuration implements \IteratorAggregate
     protected $propertyTree;
 
     /**
+     * @type ProviderInterface
+     */
+    protected $provider;
+
+    /**
      * @type ExpressionEngineInterface
      */
     protected $expressionEngine;
