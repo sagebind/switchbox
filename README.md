@@ -1,7 +1,8 @@
 # Switchbox
 [![Latest Stable Version](http://img.shields.io/packagist/v/switchbox/switchbox.svg?style=flat)](https://packagist.org/packages/switchbox/switchbox)
 [![License](http://img.shields.io/packagist/l/switchbox/switchbox.svg?style=flat)](http://www.apache.org/licenses/LICENSE-2.0)
-[![Code Quality](http://img.shields.io/scrutinizer/g/coderstephen/switchbox.svg?style=flat)](https://scrutinizer-ci.com/g/coderstephen/switchbox)
+[![Code Quality](http://img.shields.io/scrutinizer/g/coderstephen/switchbox.svg?style=flat)](http://scrutinizer-ci.com/g/coderstephen/switchbox)
+[![Test Coverage](http://img.shields.io/scrutinizer/coverage/g/coderstephen/switchbox.svg?style=flat)](http://scrutinizer-ci.com/g/coderstephen/switchbox)
 
 Configuration files are a pretty basic, prevalent part of creating software, but PHP doesn't offer a very good toolbox for using them. Switchbox is meant to be that toolbox, to allow developers to quickly and painlessly integrate configuration files into PHP applications.
 
