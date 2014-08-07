@@ -29,6 +29,7 @@ class JsonProvider extends AbstractFileProvider implements SaveableProviderInter
      * Loads settings configuration from the JSON file.
      *
      * @return Node
+     * A property tree that represents the configuration contained in the file.
      */
     public function load()
     {
@@ -50,6 +51,9 @@ class JsonProvider extends AbstractFileProvider implements SaveableProviderInter
 
     /**
      * Saves settings configuration to the JSON file.
+     *
+     * @param Node $node
+     * The root node of the configuration property tree to save.
      *
      * @return void
      */

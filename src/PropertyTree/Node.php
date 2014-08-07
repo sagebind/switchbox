@@ -25,7 +25,7 @@ class Node
     /**
      * The name of the node.
      * 
-     * @type string
+     * @type string|null
      */
     protected $name;
 
@@ -53,14 +53,14 @@ class Node
     /**
      * The parent node that this node belongs to.
      * 
-     * @type Node
+     * @type Node|null
      */
     protected $parentNode;
 
     /**
      * Creates a new configuration node with a given name and value.
      *
-     * @param string $name
+     * @param string|null $name
      * The name of the node.
      *
      * @param mixed $value
@@ -77,7 +77,7 @@ class Node
     /**
      * Gets the name of the node.
      *
-     * @return string
+     * @return string|null
      * The name of the node.
      */
     public function getName()
@@ -156,8 +156,9 @@ class Node
     /**
      * Gets the parent node that this node belongs to.
      *
-     * @return Node
-     * The parent node that this node belongs to.
+     * @return Node|null
+     * The parent node that this node belongs to, or null if the node has no
+     * parent node.
      */
     public function getParentNode()
     {

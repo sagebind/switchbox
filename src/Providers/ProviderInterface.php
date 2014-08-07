@@ -18,14 +18,16 @@
 namespace Switchbox\Providers;
 
 /**
- * Primary interface for a configuration object.
+ * Primary interface for a configuration provider.
  */
 interface ProviderInterface
 {
     /**
-     * Loads settings configuration from the provider source.
+     * Loads configuration from the provider source.
      *
      * @return \Switchbox\PropertyTree\Node
+     * The root node of a property tree that represents the configuration in
+     * the source.
      */
     public function load();
 }

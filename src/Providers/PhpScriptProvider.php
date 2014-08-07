@@ -18,6 +18,7 @@
 namespace Switchbox\Providers;
 
 use Switchbox\PropertyTree\ArrayHelper;
+use Switchbox\PropertyTree\Node;
 
 /**
  * Loads settings configuration from a PHP script file.
@@ -28,6 +29,7 @@ class PhpScriptProvider extends AbstractFileProvider implements ProviderInterfac
      * Loads settings configuration from file.
      *
      * @return Node
+     * A property tree that represents the configuration contained in the file.
      */
     public function load()
     {

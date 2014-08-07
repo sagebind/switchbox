@@ -18,14 +18,16 @@
 namespace Switchbox\Providers;
 
 /**
- * Provides methods for saving configuration to a source.
+ * Represents a configuration provider that supports saving configuration to
+ * the provider source.
  */
 interface SaveableProviderInterface extends ProviderInterface
 {
     /**
-     * Saves settings configuration to the provider source.
+     * Saves configuration to the provider source.
      *
      * @param \Switchbox\PropertyTree\Node $node
+     * The root node of the configuration property tree to save.
      * 
      * @return void
      */

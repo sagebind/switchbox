@@ -26,10 +26,10 @@ use Switchbox\PropertyTree\Node;
 class IniProvider extends AbstractFileProvider implements ProviderInterface
 {
     /**
-     * Loads settings configuration from the INI file.
+     * Loads configuration from the INI file.
      *
-     * @return NodeList
-     * The configuration contained in the file.
+     * @return Node
+     * A property tree that represents the configuration contained in the file.
      */
     public function load()
     {
