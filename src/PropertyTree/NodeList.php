@@ -140,6 +140,9 @@ class NodeList implements \IteratorAggregate, \Countable
     /**
      * Removes all occurrences of a given node from the node list.
      *
+     * This method is used for manipulating lists of nodes only. Use
+     * {@see Node::removeChild} for removing nodes from a node tree.
+     *
      * @param Node $node
      * The node to remove.
      *
@@ -160,6 +163,39 @@ class NodeList implements \IteratorAggregate, \Countable
 
         // re-index the array
         $this->nodes = array_values($this->nodes);
+    }
+
+    /**
+     * Removes the node at the given index.
+     *
+     * This method is used for manipulating lists of nodes only. Use
+     * {@see Node::removeChild} for removing nodes from a node tree.
+     *
+     * @param int $index
+     * The index of the node to remove.
+     *
+     * @return void
+     *
+     * @throws \OutOfRangeException
+     * Thrown if a non-integer is passed for `$index` or if `$index` is less
+     * than zero.
+     *
+     * @throws \OutOfBoundsException
+     * Thrown if the given index does not exist.
+     */
+    public function removeNodeByIndex($index)
+    {
+        if (!is_int($index) || $index < 0)
+        {
+            throw new \OutOfRangeException('Index must be a positive integer.');
+        }
+
+        if ($index >= $this->count())
+        {
+            throw new \OutOfBoundsException("The index '{$index}' does not exist.");
+        }
+
+        array_splice($this->nodes, $index, 1);
     }
 
     /**
