@@ -40,7 +40,7 @@ class Configuration implements \IteratorAggregate
     /**
      * Creates a new settings object with a default provider.
      *
-     * @param ProviderInterface $provider
+     * @param ProviderInterface|null $provider
      */
     public function __construct(
         ProviderInterface $provider = null,
