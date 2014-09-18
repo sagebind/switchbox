@@ -143,7 +143,7 @@ class Configuration implements \IteratorAggregate
         $names = explode('.', $name);
         $node = $this;
 
-        for ($i = 0; $i < count($names); $i++)
+        for ($i = 0, $n = count($names); $i < $n; $i++)
         {
             $node = $node->getNodeByName($names[$i]);
 
