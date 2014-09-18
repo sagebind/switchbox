@@ -140,20 +140,10 @@ class Configuration implements \IteratorAggregate
      */
     public function has($name)
     {
-        $names = explode('.', $name);
-        $node = $this;
+        $nodes = $this->expressionEngine->query($name, $this->propertyTree);
 
-        for ($i = 0, $n = count($names); $i < $n; $i++)
-        {
-            $node = $node->getNodeByName($names[$i]);
-
-            if ($node === null)
-            {
-                return false;
-            }
-        }
-
-        return true;
+        // property exists if at least one node was found
+        return count($nodes) > 0;
     }
 
     /**
