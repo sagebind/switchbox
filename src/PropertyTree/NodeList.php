@@ -83,15 +83,7 @@ class NodeList implements \IteratorAggregate, \Countable
      */
     public function getNode($index)
     {
-        if (!is_int($index) || $index < 0)
-        {
-            throw new \OutOfRangeException('Index must be a positive integer.');
-        }
-
-        if ($index >= $this->count())
-        {
-            throw new \OutOfBoundsException("The index '{$index}' does not exist.");
-        }
+        $this->validateIndex($index);
 
         return $this->nodes[$index];
     }
@@ -185,15 +177,7 @@ class NodeList implements \IteratorAggregate, \Countable
      */
     public function removeNodeByIndex($index)
     {
-        if (!is_int($index) || $index < 0)
-        {
-            throw new \OutOfRangeException('Index must be a positive integer.');
-        }
-
-        if ($index >= $this->count())
-        {
-            throw new \OutOfBoundsException("The index '{$index}' does not exist.");
-        }
+        $this->validateIndex($index);
 
         array_splice($this->nodes, $index, 1);
     }
@@ -206,5 +190,33 @@ class NodeList implements \IteratorAggregate, \Countable
     public function clear()
     {
         $this->nodes = array();
+    }
+
+    /**
+     * Validates a node index.
+     * 
+     * @param int $index
+     * The node index to validate.
+     * 
+     * @return void
+     *
+     * @throws \OutOfRangeException
+     * Thrown if a non-integer is passed for `$index` or if `$index` is less
+     * than zero.
+     *
+     * @throws \OutOfBoundsException
+     * Thrown if the given index does not exist.
+     */
+    private function validateIndex($index)
+    {
+        if (!is_int($index) || $index < 0)
+        {
+            throw new \OutOfRangeException('Index must be a positive integer.');
+        }
+
+        if ($index >= $this->count())
+        {
+            throw new \OutOfBoundsException('The index \''.$index.'\' does not exist.');
+        }
     }
 }
