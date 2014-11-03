@@ -19,16 +19,10 @@ namespace Switchbox\Tests\Providers;
 
 use Switchbox\Providers\PhpScriptProvider;
 use Switchbox\Tests\TestData;
-use org\bovigo\vfs\vfsStream;
+use VirtualFileSystem\FileSystem;
 
-class PhpScriptProviderTest extends \PHPUnit_Framework_TestCase
+class PhpScriptProviderTest extends AbstractProviderTestCase
 {
-    public function setUp()
-    {
-        // create a virtual filesystem
-        vfsStream::setup('test');
-    }
-
     public function configProvider()
     {
         return array(array(TestData::getConfig(), TestData::getArray()));
@@ -40,10 +34,10 @@ class PhpScriptProviderTest extends \PHPUnit_Framework_TestCase
     public function testLoad($expectedConfig, $expectedArray)
     {
         // write data to a php script file
-        file_put_contents('vfs://test/load.php', "<?php\nreturn ".var_export($expectedArray, true).';');
+        $this->fs->createFile('/load.php', "<?php\nreturn ".var_export($expectedArray, true).';');
 
         // create a provider
-        $provider = new PhpScriptProvider('vfs://test/load.php');
+        $provider = new PhpScriptProvider($this->fs->path('/load.php'));
 
         // load data from file
         $config = $provider->load($expectedConfig);

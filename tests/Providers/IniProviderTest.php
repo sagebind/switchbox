@@ -19,7 +19,7 @@ namespace Switchbox\Tests\Providers;
 
 use Switchbox\Providers\IniProvider;
 use Switchbox\PropertyTree\Node;
-use org\bovigo\vfs\vfsStream;
+use VirtualFileSystem\FileSystem;
 
 class IniProviderTest extends \PHPUnit_Framework_TestCase
 {

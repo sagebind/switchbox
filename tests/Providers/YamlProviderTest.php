@@ -19,29 +19,29 @@ namespace Switchbox\Tests\Providers;
 
 use Switchbox\Providers\YamlProvider;
 use Switchbox\Tests\TestData;
-use org\bovigo\vfs\vfsStream;
 use Symfony\Component\Yaml\Yaml;
+use VirtualFileSystem\FileSystem;
 
-class YamlProviderTest extends \PHPUnit_Framework_TestCase
+class YamlProviderTest extends AbstractProviderTestCase
 {
     public function setUp()
     {
-        vfsStream::setup('test');
-        file_put_contents('vfs://test/expected.yaml', Yaml::dump(TestData::getArray(), 4));
+        parent::setUp();
+        $this->fs->createFile('/expected.yaml', Yaml::dump(TestData::getArray(), 4));
     }
 
     public function configProvider()
     {
-        return array(array(TestData::getConfig(), 'vfs://test/expected.yaml'));
+        return array(array(TestData::getConfig()));
     }
 
     /**
      * @dataProvider configProvider
      */
-    public function testLoad($expectedConfig, $expectedFile)
+    public function testLoad($expectedConfig)
     {
         // create an provider
-        $provider = new YamlProvider($expectedFile);
+        $provider = new YamlProvider($this->fs->path('/expected.yaml'));
 
         // load data from file
         $config = $provider->load();
@@ -53,15 +53,15 @@ class YamlProviderTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider configProvider
      */
-    public function testSave($expectedConfig, $expectedFile)
+    public function testSave($expectedConfig)
     {
         // create an provider
-        $provider = new YamlProvider('vfs://test/actual.yaml');
+        $provider = new YamlProvider($this->fs->path('/actual.yaml'));
 
         // save provided data to provider
         $provider->save($expectedConfig);
 
         // stored data should match original data
-        $this->assertFileEquals($expectedFile, 'vfs://test/actual.yaml');
+        $this->assertFileEquals($this->fs->path('/expected.yaml'), $this->fs->path('/actual.yaml'));
     }
 }

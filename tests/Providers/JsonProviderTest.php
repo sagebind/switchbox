@@ -19,16 +19,15 @@ namespace Switchbox\Tests\Providers;
 
 use Switchbox\Providers\JsonProvider;
 use Switchbox\Tests\TestData;
-use org\bovigo\vfs\vfsStream;
+use VirtualFileSystem\FileSystem;
 
-class JsonProviderTest extends \PHPUnit_Framework_TestCase
+class JsonProviderTest extends AbstractProviderTestCase
 {
     public function setUp()
     {
-        // create a virtual filesystem
-        vfsStream::setup('test');
+        parent::setUp();
 
-        file_put_contents('vfs://test/expected.json', '{
+        $this->fs->createFile('/expected.json', '{
             "name": "awesome",
             "isAlive": true,
             "age": 25,
@@ -55,16 +54,16 @@ class JsonProviderTest extends \PHPUnit_Framework_TestCase
 
     public function configProvider()
     {
-        return array(array(TestData::getConfig(), 'vfs://test/expected.json'));
+        return array(array(TestData::getConfig()));
     }
 
     /**
      * @dataProvider configProvider
      */
-    public function testLoad($expectedConfig, $expectedFile)
+    public function testLoad($expectedConfig)
     {
         // create a provider
-        $provider = new JsonProvider($expectedFile);
+        $provider = new JsonProvider($this->fs->path('/expected.json'));
 
         // load data from file
         $config = $provider->load();
@@ -76,23 +75,32 @@ class JsonProviderTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider configProvider
      */
-    public function testLoadReturnsNode($expectedConfig, $expectedFile)
+    public function testLoadReturnsNode($expectedConfig)
     {
-        $this->markTestIncomplete();
+        // create a provider
+        $provider = new JsonProvider($this->fs->path('/expected.json'));
+
+        // load data from file
+        $config = $provider->load();
+
+        $this->assertInstanceOf('Switchbox\PropertyTree\Node', $config);
     }
 
     /**
      * @dataProvider configProvider
      */
-    public function testSave($expectedConfig, $expectedFile)
+    public function testSave($expectedConfig)
     {
         // create a provider
-        $provider = new JsonProvider('vfs://test/actual.json');
+        $provider = new JsonProvider($this->fs->path('/actual.json'));
 
         // save provided data to provider
         $provider->save($expectedConfig);
 
         // stored data should match original data
-        $this->assertJsonFileEqualsJsonFile($expectedFile, 'vfs://test/actual.json');
+        $this->assertJsonFileEqualsJsonFile(
+            $this->fs->path('/expected.json'),
+            $this->fs->path('/actual.json')
+        );
     }
 }
