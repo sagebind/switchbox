@@ -17,7 +17,7 @@
 
 namespace Switchbox\Providers;
 
-use Switchbox\PropertyTree\ArrayHelper;
+use Switchbox\Util;
 use Switchbox\PropertyTree\Node;
 use Symfony\Component\Yaml\Dumper;
 use Symfony\Component\Yaml\Parser;
@@ -50,22 +50,22 @@ class YamlProvider extends AbstractFileProvider implements SaveableProviderInter
         // parse the yaml to an array
         $array = $parser->parse($yaml);
 
-        // return a config tree from the array
-        return ArrayHelper::fromArray($array);
+        // return a property tree from the array
+        return Util::arrayToPropertyTree($array);
     }
 
     /**
      * Saves settings configuration to the YAML file.
      *
-     * @param Node $node
+     * @param Node $rootNode
      * The root node of the configuration property tree to save.
      *
      * @return void
      */
-    public function save(Node $node)
+    public function save(Node $rootNode)
     {
-        // turn the config tree into an array
-        $array = ArrayHelper::toArray($node);
+        // turn the property tree into an array
+        $array = Util::propertyTreeToArray($rootNode);
 
         // create a yaml dumper
         $dumper = new Dumper();

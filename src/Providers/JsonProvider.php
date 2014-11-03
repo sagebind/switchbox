@@ -17,7 +17,7 @@
 
 namespace Switchbox\Providers;
 
-use Switchbox\PropertyTree\ArrayHelper;
+use Switchbox\Util;
 use Switchbox\PropertyTree\Node;
 
 /**
@@ -45,22 +45,22 @@ class JsonProvider extends AbstractFileProvider implements SaveableProviderInter
         // load the json object tree into an array
         $array = json_decode($json, true);
 
-        // return a config tree from the array
-        return ArrayHelper::fromArray($array);
+        // return a property tree from the array
+        return Util::arrayToPropertyTree($array);
     }
 
     /**
      * Saves settings configuration to the JSON file.
      *
-     * @param Node $node
+     * @param Node $rootNode
      * The root node of the configuration property tree to save.
      *
      * @return void
      */
-    public function save(Node $node)
+    public function save(Node $rootNode)
     {
-        // turn the config tree into an array
-        $array = ArrayHelper::toArray($node);
+        // turn the property tree into an array
+        $array = Util::propertyTreeToArray($rootNode);
 
         // serialize the array to a json string
         $json = json_encode($array, JSON_PRETTY_PRINT);

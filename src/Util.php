@@ -15,23 +15,23 @@
  * under the License.
  */
 
-namespace Switchbox\PropertyTree;
+namespace Switchbox;
 
 /**
- * Converts configuration trees to and from multidimensional arrays.
+ * A static class of various utility functions.
  */
-class ArrayHelper
+final class Util
 {
     /**
-     * Creates a configuration tree from a multidimensional array.
-     * 
+     * Creates a property tree from a multidimensional array.
+     *
      * @param array $array
-     * The array containing the data to create a configuration tree from.
-     * 
+     * The array containing the data to create a proeprty tree from.
+     *
      * @return Node
-     * The root node of a new configuration tree.
+     * The root node of a new property tree.
      */
-    public static function fromArray(array $array)
+    public static function arrayToPropertyTree(array $array)
     {
         $parentNode = new Node();
 
@@ -71,24 +71,24 @@ class ArrayHelper
     }
 
     /**
-     * Creates a multidimensional array from a configuration tree.
+     * Creates a multidimensional array from a property tree.
      *
-     * @param Node $node
-     * The root node of the configuration tree.
+     * @param Node $rootNode
+     * The root node of the property tree.
      *
      * @return mixed
-     * A multidimensional array that represents the data of the configuration tree.
+     * A multidimensional array that represents the data of the property tree.
      */
-    public static function toArray(Node $node)
+    public static function propertyTreeToArray(Node $rootNode)
     {
-        if (!$node->hasChildNodes())
+        if (!$rootNode->hasChildNodes())
         {
-            return $node->getValue();
+            return $rootNode->getValue();
         }
 
         $array = array();
 
-        foreach ($node->getChildNodes() as $childNode)
+        foreach ($rootNode->getChildNodes() as $childNode)
         {
             if ($childNode->getName() !== null)
             {
@@ -100,9 +100,9 @@ class ArrayHelper
             }
         }
 
-        if ($node->getValue() !== null)
+        if ($rootNode->getValue() !== null)
         {
-            $array['__value'] = $node->getValue();
+            $array['__value'] = $rootNode->getValue();
         }
 
         // return the array

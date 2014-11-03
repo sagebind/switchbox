@@ -17,7 +17,7 @@
 
 namespace Switchbox\Providers;
 
-use Switchbox\PropertyTree\ArrayHelper;
+use Switchbox\Util;
 use Switchbox\PropertyTree\Node;
 
 /**
@@ -48,7 +48,7 @@ class IniProvider extends AbstractFileProvider implements ProviderInterface
             throw new \Exception("Syntax error in file '{$this->fileName}'.");
         }
 
-        // return a config tree from the array
-        return ArrayHelper::fromArray($array);
+        // return a property tree from the array
+        return Util::arrayToPropertyTree($array);
     }
 }
