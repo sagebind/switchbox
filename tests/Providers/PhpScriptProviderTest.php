@@ -19,7 +19,6 @@ namespace Switchbox\Tests\Providers;
 
 use Switchbox\Providers\PhpScriptProvider;
 use Switchbox\Tests\TestData;
-use VirtualFileSystem\FileSystem;
 
 class PhpScriptProviderTest extends AbstractProviderTestCase
 {

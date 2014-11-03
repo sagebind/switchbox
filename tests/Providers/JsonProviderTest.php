@@ -19,7 +19,6 @@ namespace Switchbox\Tests\Providers;
 
 use Switchbox\Providers\JsonProvider;
 use Switchbox\Tests\TestData;
-use VirtualFileSystem\FileSystem;
 
 class JsonProviderTest extends AbstractProviderTestCase
 {

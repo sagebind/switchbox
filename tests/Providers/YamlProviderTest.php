@@ -20,7 +20,6 @@ namespace Switchbox\Tests\Providers;
 use Switchbox\Providers\YamlProvider;
 use Switchbox\Tests\TestData;
 use Symfony\Component\Yaml\Yaml;
-use VirtualFileSystem\FileSystem;
 
 class YamlProviderTest extends AbstractProviderTestCase
 {
