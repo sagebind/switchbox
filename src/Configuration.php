@@ -23,7 +23,7 @@ namespace Switchbox;
 class Configuration implements \IteratorAggregate
 {
     /**
-     * @type Node
+     * @type PropertyTree\Node
      */
     protected $propertyTree;
 
@@ -70,7 +70,7 @@ class Configuration implements \IteratorAggregate
 
     /**
      * Sets the settings provider to use for loading and saving.
-     * 
+     *
      * @param ProviderInterface $provider
      * The settings provider to use.
      *
@@ -94,7 +94,7 @@ class Configuration implements \IteratorAggregate
 
     /**
      * Sets the expression engine to use for resolving property names.
-     * 
+     *
      * @param ExpressionEngineInterface $expressionEngine
      * The expression engine to use.
      *
@@ -131,10 +131,10 @@ class Configuration implements \IteratorAggregate
 
     /**
      * Checks if a given property exists.
-     * 
+     *
      * @param string $name
      * The name of the property.
-     * 
+     *
      * @return bool
      * True if the property exists, otherwise false.
      */
@@ -148,13 +148,13 @@ class Configuration implements \IteratorAggregate
 
     /**
      * Gets the value of a configuration property.
-     * 
+     *
      * @param string $name
      * An expression that reporesents the property whose value to get.
-     * 
+     *
      * @param mixed $default
      * A default value to return if the specified property does not exist.
-     * 
+     *
      * @return mixed
      * The value of the given property, or the default value if the specified
      * property does not exist.
@@ -173,13 +173,13 @@ class Configuration implements \IteratorAggregate
 
     /**
      * Sets the value of a configuration property.
-     * 
+     *
      * @param string $name
      * An expression that reporesents the property whose value to set.
-     * 
+     *
      * @param mixed $value
      * The value to set the given property to.
-     * 
+     *
      * @return void
      */
     public function set($name, $value)
@@ -210,10 +210,10 @@ class Configuration implements \IteratorAggregate
 
     /**
      * Removes a configuration property.
-     * 
+     *
      * @param string $name
      * An expression that reporesents the property to remove.
-     * 
+     *
      * @return void
      */
     public function remove($name)
@@ -238,7 +238,7 @@ class Configuration implements \IteratorAggregate
 
     /**
      * Loads settings configuration from the settings provider.
-     * 
+     *
      * @return Configuration
      * Self for method chaining.
      */
@@ -253,7 +253,7 @@ class Configuration implements \IteratorAggregate
 
     /**
      * Saves the settings configuration to the settings provider.
-     * 
+     *
      * @return Configuration
      * Self for method chaining.
      */
