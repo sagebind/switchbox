@@ -17,7 +17,7 @@
 
 namespace Switchbox\Providers;
 
-use Switchbox\PropertyTree\ArrayHelper;
+use Switchbox\Util;
 use Switchbox\PropertyTree\Node;
 
 /**
@@ -48,7 +48,7 @@ class PhpScriptProvider extends AbstractFileProvider implements ProviderInterfac
             throw new \UnexpectedValueException("The file '{$this->fileName}' does not return an array.");
         }
 
-        // return a config tree from the returned array
-        return ArrayHelper::fromArray($returnValue);
+        // return a property tree from the returned array
+        return Util::arrayToPropertyTree($returnValue);
     }
 }
