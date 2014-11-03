@@ -29,20 +29,80 @@ class NodeListTest extends \PHPUnit_Framework_TestCase
         $this->nodeList = new NodeList();
     }
 
-    public function testCount()
-    {}
+    public function testInitEmpty()
+    {
+        $this->assertEmpty($this->nodeList);
+    }
+
+    /**
+     * @depends testInitEmpty
+     */
+    public function testAddNode()
+    {
+        $testNode = new Node('test');
+        $this->nodeList->addNode($testNode);
+        $this->assertContains($testNode, $this->nodeList);
+    }
 
     /**
      * @depends testAddNode
      */
-    public function testClearEmptiesList()
+    public function testContains()
     {
-        $this->nodeList->clear();
-        $this->assertEmpty($this->nodeList);
+        $this->nodeList = new NodeList();
+        $testNode = new Node('test');
+        $this->nodeList->addNode($testNode);
+        $this->assertTrue($this->nodeList->contains($testNode));
     }
 
-    public function testIsIteratable()
+    /**
+     * @depends testAddNode
+     */
+    public function testAddMultipleCount()
     {
-        $c = iterator_count($this->nodeList);
+        $expectedCount = 6;
+        for ($i = 0; $i < $expectedCount; $i++)
+        {
+            $this->nodeList->addNode(new Node('test'));
+        }
+
+        $this->assertCount($expectedCount, $this->nodeList);
+
+        return $this->nodeList;
+    }
+
+    /**
+     * @depends testAddNode
+     */
+    public function testRemoveNode()
+    {
+        $testNode = new Node('test');
+        $this->nodeList->addNode($testNode);
+        $this->nodeList->removeNode($testNode);
+        $this->assertNotContains($testNode, $this->nodeList);
+    }
+
+    /**
+     * @depends testAddNode
+     */
+    public function testRemoveNodeByIndex()
+    {
+        $testNode = new Node('test');
+        $this->nodeList->addNode($testNode);
+        $this->nodeList->removeNodeByIndex(0);
+        $this->assertNotContains($testNode, $this->nodeList);
+    }
+
+    /**
+     * @depends testAddMultipleCount
+     */
+    public function testClearEmptiesList(NodeList $nodeList)
+    {
+        if ($nodeList->count() < 2)
+        {
+            $this->fail('Test requires a fixture containing at least 2 nodes.');
+        }
+        $nodeList->clear();
+        $this->assertEmpty($nodeList);
     }
 }
