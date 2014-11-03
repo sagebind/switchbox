@@ -50,7 +50,7 @@ final class Util
             // item contains child items
             if (is_array($value))
             {
-                $childNode = static::fromArray($value);
+                $childNode = static::arrayToPropertyTree($value);
             }
             else
             {
@@ -94,7 +94,7 @@ final class Util
         {
             if ($childNode->getName() !== null)
             {
-                $array[$childNode->getName()] = static::toArray($childNode);
+                $array[$childNode->getName()] = static::propertyTreeToArray($childNode);
             }
             else
             {
