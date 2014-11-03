@@ -17,6 +17,8 @@
 
 namespace Switchbox;
 
+use Switchbox\PropertyTree\Node;
+
 /**
  * A static class of various utility functions.
  */
